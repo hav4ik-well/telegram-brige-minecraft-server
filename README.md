@@ -2,14 +2,6 @@
 
 A bridge mod for automatic chat synchronization between Minecraft server and Telegram.
 
-✨ Features
-🔄 Bidirectional synchronization - messages from Minecraft → Telegram and Telegram → Minecraft
-⚡ Real-time operation without delays
-🎨 Customizable message formats with Minecraft formatting codes
-🔧 Fully automatic - no commands required, works out of the box
-📱 Telegram support - works with groups, channels, and private chats
-🛡️ Security - configurable with your own bot token
-
 📦 Requirements
 Minecraft: 1.21.6
 
