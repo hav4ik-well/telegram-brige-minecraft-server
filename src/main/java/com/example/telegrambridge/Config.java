@@ -1,42 +1,39 @@
 package com.example.telegrambridge;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import net.fabricmc.loader.api.FabricLoader;
-
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class Config {
-    public String botToken = "YOUR_BOT_TOKEN";
-    public long chatId = 0L;
-    public String formatFromMC = "§b[Minecraft] §f%s: %s";
-    public String formatFromTG = "§a[Telegram] §f%s: %s";
+    private final JavaPlugin plugin;
     
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final File CONFIG_FILE = new File(FabricLoader.getInstance().getConfigDir().toFile(), "telegram-bridge.json");
+    public String botToken;
+    public long chatId;
+    public String formatFromMC;
+    public String formatFromTG;
     
-    public static Config load() {
-        if (CONFIG_FILE.exists()) {
-            try (FileReader reader = new FileReader(CONFIG_FILE)) {
-                return GSON.fromJson(reader, Config.class);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+    public Config(JavaPlugin plugin) {
+        this.plugin = plugin;
+        load();
+    }
+    
+    public void load() {
+        plugin.saveDefaultConfig();
+        FileConfiguration config = plugin.getConfig();
         
-        Config config = new Config();
-        config.save();
-        return config;
+        botToken = config.getString("bot-token", "YOUR_BOT_TOKEN");
+        chatId = config.getLong("chat-id", 0L);
+        formatFromMC = config.getString("format.from-mc", "[Minecraft] %s: %s");
+        formatFromTG = config.getString("format.from-tg", "§a[Telegram] §f%s: %s");
     }
     
     public void save() {
-        try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
-            GSON.toJson(this, writer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FileConfiguration config = plugin.getConfig();
+        
+        config.set("bot-token", botToken);
+        config.set("chat-id", chatId);
+        config.set("format.from-mc", formatFromMC);
+        config.set("format.from-tg", formatFromTG);
+        
+        plugin.saveConfig();
     }
 }

@@ -4,24 +4,25 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.text.Text;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 
 public class TelegramBotHandler {
     private TelegramBot bot;
     private final Config config;
-    private MinecraftServer server;
+    private final JavaPlugin plugin;
     
-    public TelegramBotHandler(Config config) {
+    public TelegramBotHandler(JavaPlugin plugin, Config config) {
+        this.plugin = plugin;
         this.config = config;
     }
     
-    public void initialize(MinecraftServer server) {
-        this.server = server;
+    public void initialize() {
         if (config.botToken.equals("YOUR_BOT_TOKEN")) {
-            System.out.println("Please set up your Telegram bot token in config!");
+            plugin.getLogger().warning("Please set up your Telegram bot token in config.yml!");
             return;
         }
         
@@ -49,9 +50,9 @@ public class TelegramBotHandler {
             String message = update.message().text();
             String formattedMessage = String.format(config.formatFromTG, username, message);
             
-            if (server != null) {
-                server.getPlayerManager().broadcast(Text.literal(formattedMessage), false);
-            }
+            Bukkit.getScheduler().runTask(plugin, () -> {
+                Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', formattedMessage));
+            });
         }
     }
     
@@ -59,7 +60,14 @@ public class TelegramBotHandler {
         if (bot != null && config.chatId != 0) {
             String formattedMessage = String.format(config.formatFromMC, username, message);
             SendMessage request = new SendMessage(config.chatId, formattedMessage);
-            bot.execute(request);
+            
+            Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+                try {
+                    bot.execute(request);
+                } catch (Exception e) {
+                    plugin.getLogger().warning("Failed to send message to Telegram: " + e.getMessage());
+                }
+            });
         }
     }
     

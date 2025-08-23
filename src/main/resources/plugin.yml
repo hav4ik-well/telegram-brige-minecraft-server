@@ -1,0 +1,6 @@
+name: TelegramBridge
+version: '1.0.0'
+main: com.example.telegrambridge.TelegramBridgePlugin
+api-version: 1.16
+authors: [Hav4ikWifi]
+description: Мост между чатом Minecraft и Telegram

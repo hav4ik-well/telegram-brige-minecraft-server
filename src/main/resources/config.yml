@@ -1,0 +1,12 @@
+bot-token: "YOUR_BOT_TOKEN"
+chat-id: 0
+
+format:
+  from-mc: "Minecraft] %s: %s"
+  from-tg: "§a[Telegram] §f%s: %s"
+
+
+options:
+  sync-death-messages: true
+  sync-join-leave: false
+  debug: false
