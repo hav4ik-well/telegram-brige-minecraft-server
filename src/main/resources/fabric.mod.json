@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "telegram-bridge",
+  "version": "${version}",
+  "name": "Telegram Bridge",
+  "description": "Мост между чатом Minecraft и Telegram",
+  "authors": [
+    "Hav4ik-Wifi"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": "https://github.com/hav4ik-well/telegram-brige-minecraft"
+  },
+  "license": "MIT",
+  "icon": "",
+  "environment": "server",
+  "entrypoints": {
+    "main": [
+      "com.example.telegrambridge.TelegramBridgeMod"
+    ]
+  },
+  "mixins": [
+    "telegram-bridge.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.15.11",
+    "fabric-api": "*",
+    "minecraft": "~1.21.6",
+    "java": ">=17"
+  }
+}
