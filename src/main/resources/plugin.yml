@@ -1,0 +1,6 @@
+name: TelegramBridge
+version: ${version}
+main: com.github.hav4ik.telegrambridge.TelegramBridge
+api-version: 1.20
+authors: [hav4ik-well]
+description: Мост между Minecraft и Telegram

@@ -1,0 +1,17 @@
+# Настройки Telegram бота
+telegram:
+  bot_token: "YOUR_BOT_TOKEN_HERE"
+  chat_id: 0
+
+# Форматы сообщений
+formats:
+  minecraft: "§7[TG] §b%player%: §f%message%"
+  telegram: "👤 %player%: %message%"
+  join: "✅ %player% присоединился к серверу"
+  quit: "❌ %player% покинул сервер"
+
+# Включение/выключение событий
+events:
+  join: true
+  quit: true
+  chat: true
